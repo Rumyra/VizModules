@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>VizGrid Example</title>
+	<style type="text/css">
+		html, body, canvas {padding: 0px; margin: 0px; box-sizing: border-box;}
+		canvas {width: 100vw; height: 100vh;}
+	</style>
+</head>
+<body>
+
+<canvas></canvas>
+
+
+<script type="module">
+	import VizGrid from '../VizGrid.js'
+
+	// setup canvas
+	const canvasEl = document.querySelector('canvas')
+	const width = canvasEl.width = window.innerWidth*window.devicePixelRatio;
+	const height = canvasEl.height = window.innerHeight*window.devicePixelRatio;
+
+	// setup context
+	const ctx = canvasEl.getContext('2d');
+
+	const defaultOpts = {
+		type: 'cartesian',
+		width: 1200,
+		height: 800,
+		padding: false,
+		spacing: 0.5,
+		ratio: 1,
+		axis: 'x',
+		offset: 0,
+		center: 0,
+		dither: 0,
+		falloff: 0,
+	}
+
+	const test = {
+		width: width-100,
+		height: height-100,
+		gx: 100,
+		gy: 100,
+		padding: false,
+		spacing: 0.6,
+		ratio: 1.5,
+		axis: 'y',
+		offset: 0.5,
+		center: [0.5, 0.2],
+		dither: 0.7,
+		falloff: 0.2
+	}
+
+	const grid = new VizGrid(test);
+
+
+// draw dots where the grid points are
+	grid.forEach( (el, i) => {
+		// console.log(i);
+		const hue = 360*el.dc.av;
+		ctx.fillStyle = `hsla(${hue}, 50%, 50%, ${el.dc.av})`;
+		// if (el.dc.x > 0.5) {
+			if (el.alive === true) {
+				ctx.beginPath();
+				ctx.arc(el.x, el.y, 20, 0, Math.PI*2);
+				ctx.fill();
+				ctx.closePath();
+			}
+		// }
+		
+	})
+
+// ideas for different grids
+// cart: reg, pad, iso, line center, four corners, 2 grids, dis
+// polar: reg, circle, spiral, s, dis
+
+</script>
+</body>
+</html>
