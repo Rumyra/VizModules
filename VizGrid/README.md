@@ -382,10 +382,20 @@ grid.render();
 To reset the grid to it's original options when created, call the `reset()` method.
 
 ```
-grid.reset()
+grid.reset();
 ```
 
 An optional parameter can be specified for if you want the grid to re-render after it's reset. By default it _does_ but you can set to `false` in case you want to call `render()` later.
+
+### `rShift(amount = 1)`
+
+This randomly shifts each grid point for a more organic distribution.
+
+```
+grid.rShift(0.3);
+```
+
+It accepts a value between 0 & 1 describing how much you want to shift each point by. The maximum is cell width (`cw`) & cell height (`ch`).
 
 
 # Need more?

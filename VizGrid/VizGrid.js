@@ -525,6 +525,25 @@ class VizGrid extends Map {
 			this.grid = [];
 			this.render()
 		}
+	} // reset
+
+	rShift(amount = 1) {
+		// manipulate the grid array
+		this.grid.forEach( arr => {
+			arr.forEach( coord => {
+				// x
+				let rx = Math.random()*this.cw*amount;
+				rx = chance(0.5) ? rx*-1 : rx;
+				coord.x = coord.x + rx;
+
+				// y
+				let ry = Math.random()*this.ch*amount;
+				ry = chance(0.5) ? ry*-1 : ry;
+				coord.y = coord.y + ry;
+			} );
+		} );
+		// then regenerate coords
+		this.#generateCoords();
 	}
 
 }

@@ -7,8 +7,19 @@
 </head>
 <body>
 
+
+<script type="module">
+	import VizCanvas from '../VizCanvas.js';
+
+	const canvas = new VizCanvas();
+
+	canvas.ctx.fillStyle = 'deeppink';
+	canvas.ctx.arc(canvas.cx, canvas.cy, 200, 0, Math.PI*2);
+	canvas.ctx.fill();
+
+	canvas.invert = 1;
+
+</script>
+
 </body>
-
-
-
 </html>
