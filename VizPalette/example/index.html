@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>VizPalette example</title>
+	<style>
+		canvas {
+			width:  800px;
+			height:  600px;
+			border:  1px solid grey;
+		}
+	</style>
+</head>
+<body>
+
+	<canvas></canvas>
+
+<script type="module">
+	// create palette
+	import VizPalette from '../VizPalette.js';
+
+	// ~~~~~~~~~~~~ defined palette
+	const exampleCols = ['#ffff82', '#f5f7dc', '#b5d99c', '#0f0326', '#e65f5c'];
+	const exCols = new VizPalette({input: exampleCols});
+
+	// ~~~~~~~~~~~~ generated palette
+	const defaultOptions = {
+		input: `hsla(${Math.floor(Math.random()*360)}, 50%, 50%, 1)`,
+		paletteType: 'tetrad',
+		darkBg: true
+	}
+
+	const testOptions = {
+		// input: 'orange',
+		paletteType: 'tetrad',
+		darkBg: true
+	}
+
+	const genCols = new VizPalette(testOptions);
+	// default -> dots
+	genCols.addPattern({
+		type: 'dots',
+		fgCol: genCols[4],
+		bgCol: genCols[0],
+		size: 32,
+		ratio: 1.6
+	});
+	// dotgrid
+	genCols.addPattern({
+		type: 'dotgrid',
+		fgCol: genCols[1],
+		bgCol: genCols[3],
+		size: 32,
+		ratio: 1.6
+	})
+	// checkered
+	genCols.addPattern({
+		type: 'checkered',
+		fgCol: genCols[2],
+		bgCol: genCols[4],
+		size: 52,
+		ratio: 1.6
+	})
+	// stripes
+	genCols.addPattern({
+		type: 'stripes',
+		fgCol: genCols[2],
+		bgCol: genCols[4],
+		size: 20,
+		ratio: 1
+	})
+	// grid
+	genCols.addPattern({
+		type: 'grid',
+		fgCol: genCols[2],
+		bgCol: genCols[4],
+		size: 20,
+		ratio: 1
+	})
+	// linear gradient
+	genCols.addPattern({
+		type: 'lgradient',
+		// fgCol: genCols[0],
+		// bgCol: genCols[1],
+		size: 100,
+		ratio: 1
+	})
+	console.log(genCols);
+
+	// get width & height of canvas including dpr
+	const width = 800*window.devicePixelRatio;
+	const height = 600*window.devicePixelRatio;
+	const size = 100*window.devicePixelRatio;
+
+	// create coords for drawing squares
+	let coords = [];
+	for (let y=0; y<width; y+=size) {
+		for (let x=0; x<height; x+=size) {
+			coords.push({x:x,y:y})
+		}
+	}
+
+	// create canvas & add squares for different fills
+	const canvasEl = document.querySelector('canvas');
+	canvasEl.width = width;
+	canvasEl.height = height;
+	const ctx = canvasEl.getContext('2d');
+
+	// change to exCols to see example palette (not generated)
+	genCols.forEach( (el, i) => {
+		ctx.fillStyle = el;
+		ctx.fillRect(coords[i].x, coords[i].y, size, size);
+	})
+
+
+</script>
+
+</body>
+</html>
