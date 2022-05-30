@@ -39,7 +39,7 @@
 
 	const genCols = new VizPalette(testOptions);
 	// default -> dots
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'dots',
 		fgCol: genCols[4],
 		bgCol: genCols[0],
@@ -47,7 +47,7 @@
 		ratio: 1.6
 	});
 	// dotgrid
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'dotgrid',
 		fgCol: genCols[1],
 		bgCol: genCols[3],
@@ -55,7 +55,7 @@
 		ratio: 1.6
 	})
 	// checkered
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'checkered',
 		fgCol: genCols[2],
 		bgCol: genCols[4],
@@ -63,7 +63,7 @@
 		ratio: 1.6
 	})
 	// stripes
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'stripes',
 		fgCol: genCols[2],
 		bgCol: genCols[4],
@@ -71,7 +71,7 @@
 		ratio: 1
 	})
 	// grid
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'grid',
 		fgCol: genCols[2],
 		bgCol: genCols[4],
@@ -79,7 +79,7 @@
 		ratio: 1
 	})
 	// linear gradient
-	genCols.addPattern({
+	genCols.addFill({
 		type: 'lgradient',
 		// fgCol: genCols[0],
 		// bgCol: genCols[1],

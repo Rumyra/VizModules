@@ -8,8 +8,25 @@ console.log(tinycolor('red'));
 		// offCtx.rotate(rotation);
 		// offCtx.translate(-size/2, -size/2);
 // TODO manipulate fills in palette class
+// TODO recreate pattern when properties change
 
-// Canvas Fill class for use in palette
+/**
+ * VizFill creates canvas pattern and gradient fills for use with VizPalette.
+ * @param {Object} An options object with the following properties - all are optional
+ * - `type` {String} The type of fill to create. Can be:
+ * * - `'dots'` _default_: A `CanvasPattern` of dots.
+ * * - `'dotgrid'`: A `CanvasPattern` a dot grid.
+ * * - `'stripes'`: A stripey `CanvasPattern`.
+ * * - `'grid'`: A line grid `CanvasPattern`.
+ * * - `'checkered'`: A checkered `CanvasPattern`.
+ * * - `'lgradient'`: A linear `CanvasGradient`.
+ * - `fgCol` {CSSColor} The foreground colour of the pattern
+ * - `bgCol` {CSSColor} The background colour of the pattern
+ * - `size` {int} `24` The size of the repeating part of the pattern
+ * - `ratio` {float} `1` Determines how big the pattern part is compared to the repeatable size above. E.g. for 'dots' increasing the ratio will increase the circle radius of the dot
+ *
+ * @returns {CanvasPattern | CanvasGradient} call VizFill.fill
+ */
 class VizFill {
 	#type;
 	#fgCol;
@@ -35,7 +52,10 @@ class VizFill {
 	}
 
 	// getters & setters
-	// TODO redraw on change
+	/**
+	 * [sets & returns the type of fill]
+	 * @return {String}
+	 */
 	get type() {
 		return this.#type;
 	}
@@ -43,6 +63,10 @@ class VizFill {
 		this.#type = type;
 	}
 
+	/**
+	 * [Sets & returns the foreground colour]
+	 * @return {CSSColor}
+	 */
 	get fgCol() {
 		return this.#fgCol;
 	}
@@ -50,6 +74,10 @@ class VizFill {
 		this.#fgCol = col;
 	}
 
+	/**
+	 * [Sets & returns the background colour]
+	 * @return {CSSColor}
+	 */
 	get bgCol() {
 		return this.#bgCol;
 	}
@@ -57,6 +85,10 @@ class VizFill {
 		this.#bgCol = col;
 	}
 
+	/**
+	 * [Sets & returns the size of the repeatable part of the fill]
+	 * @return {int}
+	 */
 	get size() {
 		return this.#size;
 	}
@@ -64,6 +96,10 @@ class VizFill {
 		this.#size = val;
 	}
 
+	/**
+	 * [Sets and returns the ratio of the pattern]
+	 * @return {float}
+	 */
 	get ratio() {
 		return this.#ratio;
 	}
@@ -71,13 +107,20 @@ class VizFill {
 		this.#ratio = val;
 	}
 
+	/**
+	 * [fill description]
+	 * @return {[type]} [description]
+	 */
 	get fill() {
 		return this.#fill;
 	}
 
 	
 
-	// contains just the drawing part patterns
+	/**
+	 * Runs the canvas drawing parts for each pattern
+	 * @return {this}
+	 */
 	draw() {
 		// switch options
 		switch (this.#type) {
@@ -115,11 +158,13 @@ class VizFill {
 				this.#ctx.arc(this.#size-quart, this.#size-quart, (this.#size/6)*this.#ratio, 0, Math.PI*2);
 				break;
 			}
-
+		return this;
 	}
 
-
-	// draws pattern
+	/**
+	 * Renders the pattern or gradient to an offscreencanvas
+	 * @return {CanvasPattern | CanvasGradient}
+	 */
 	render() {
 		// if type is gradient then return a canvas gradient
 		if (this.#type === 'lgradient') {
@@ -143,8 +188,9 @@ class VizFill {
 		}
 	} // render
 
+} // ~~~~~~~~~~~~~~~~~~ VizFill
 
-} // VizFill
+// =============================================
 
 /**
  * VizPalette creates colour palettes from one colour or an array.
@@ -152,8 +198,12 @@ class VizFill {
  * - input can be one colour (in any css colour format) or an array of colours. If one colour is specified a palette is generated. Otherwise the array of colours becomes the palette
  * @param {Object} An options object with the following properties - all are optional
  * - `input` One colour, an array of colours, or if nothing is specified a random colour (and palette) is generated
- * - `paletteType` only takes affect if one colour is specified and determines the style of palette returned
- * - `darkBg` a `bg` and `fg` property is included as part of the returned array, this determines whether the background is dark and foregraound is light (if set to `true`) and vixe versa (if set to `false`)
+ * - `paletteType` only takes affect if one colour is specified and determines the style of palette returned. Can be:
+ * * - `'tetrad'` _default_: Six colours, one original, one very dark, one very light and three additional which are tetrad compliments of the input.
+* * - `'same'`: Five colours, one original, one very dark, one very light and two additional similar to the input.
+* * - `'split'` Five colours, one original, one very dark, one very light and two additional which are split compliments of the input.
+* * - `'triad'` Five colours, one original, one very dark, one very light and two additional which are triad compliments of the input.
+ * - `darkBg`: `bg` and `fg` properties are included as part of the returned array, this determines whether the background is dark and foreground is light (if set to `true`) and vice versa (if set to `false`)
  *
  * @returns {Array} An array of hex value strings
  */
@@ -178,13 +228,14 @@ class VizPalette extends Array {
 		this.#paletteType = paletteType;
 		this.#darkBg = darkBg;
 
-		this.#tinyColors = [];
-		this.#generateColours();
 		this.generatePalette();
 	}
 
 	// getters & setters ~~~~~~~~~~~~~~~~~~~
-	
+	/**
+	 * One colour or an array of colours in any {CSSColor} format
+	 * @return {String | Array}
+	 */
 	get input() {
 		return this.#input;
 	}
@@ -193,6 +244,10 @@ class VizPalette extends Array {
 		this.generatePalette();
 	}
 
+	/**
+	 * If one colour is used as the input a palette type can be specified
+	 * @return {String}
+	 */
 	get paletteType() {
 		return this.#paletteType;
 	}
@@ -201,14 +256,38 @@ class VizPalette extends Array {
 		this.generatePalette();
 	}
 
+	/**
+	 * Set whether the background is dark (`true`) or light (`false`)
+	 * @return {bool}
+	 */
+	get darkBg() {
+		return this.#darkBg;
+	}
+	set darkBg(bool) {
+		this.#darkBg = bool;
+		this.generatePalette();
+	}
+
+	/**
+	 * Finds the darkest colour in the palette
+	 * @return {tinyColor}
+	 */
 	get #darkest() {
 		return this.#findDarkest(this.#tinyColors);
 	}
 
+	/**
+	 * Finds the lightest colour in the palette
+	 * @return {tinyColor}
+	 */
 	get #lightest() {
 		return this.#findLightest(this.#tinyColors);
 	}
 
+	/**
+	 * Returns the background colour of the palette (depends on whether `darkBg` is set to `true` or `false`)
+	 * @return {String} Hexadecimal string of the olour
+	 */
 	get bg() {
 		if (this.#darkBg === true) {
 			return this.#darkest.toHexString();
@@ -216,7 +295,10 @@ class VizPalette extends Array {
 			return this.#lightest.toHexString();
 		}
 	}
-
+	/**
+	 * Returns the foreground colour of the palette (depends on whether `darkBg` is set to `true` or `false`)
+	 * @return {String} Hexadecimal string of the olour
+	 */
 	get fg() {
 		if (this.#darkBg === false) {
 			return this.#darkest.toHexString();
@@ -226,12 +308,11 @@ class VizPalette extends Array {
 	}
 
 	/**
-	 * [generateColours description]
-	 * @return {Array} Returns an array of tinycolors based on input
-	 * TODO set this to a property
+	 * Generates the colour palette and sets the #tinycolors property
+	 * @return {this}
 	 */
 	#generateColours() {
-		let colArr = [];
+		this.#tinyColors = [];
 
 		// Check if input is array
 		if (Array.isArray(this.#input)) {
@@ -247,7 +328,7 @@ class VizPalette extends Array {
 			const bgi = this.#tinyColors.findIndex(el => el.toHexString() === this.bg);
 			const bgel = this.#tinyColors.splice(bgi, 1)[0];
 			this.#tinyColors.splice(0, 0, bgel);
-			
+
 		} else {
 
 			// set up light/dark
@@ -298,19 +379,27 @@ class VizPalette extends Array {
 				this.#tinyColors.unshift(dark);
 				this.#tinyColors.unshift(light);
 			}
-
 		}
+		return this;
+	} // #generateColours
 
-	}
-
-	addPattern(opts) {
+	/**
+	 * Adds a VizFill to the palette
+	 * @param {Object} opts See VizFill for options
+	 */
+	addFill(opts) {
 		const pattern = new VizFill(opts);
 		this.push(pattern.fill);
 		return pattern;
 	}
 
+	/**
+	 * Loops over #tinyColors and returns hexadecimal strings
+	 * @return {Array} Returns the generated VizPalette
+	 */
 	generatePalette() {
 		// add colours
+		this.#generateColours();
 		this.#tinyColors.forEach( col => {
 			this.push(col.toHexString())
 		} )

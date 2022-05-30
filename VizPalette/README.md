@@ -1,8 +1,10 @@
 # VizPalette
 
-Returns an array of colours & Canvas API fills with extra methods & properties.
+Returns an array of colours (in hexadecimal string format) based on an input of one colour or an array.
 
-The use case for this was fill & stroke styles with the Canvas API, however can be configured to just return a palette of colours for use anywhere.
+[See it working](example)
+
+The use case for this was fill & stroke styles with the Canvas API. There is an extra class `VizFill` included but not exported, `VizPalette` utilises it to create `CanvasPatterns` & `CanvasGradients` to add to the palette.
 
 ## Include
 
@@ -42,8 +44,7 @@ The following are the default options:
 const options = {
 	input: random color,
 	paletteType: 'tetrad',
-	darkBg: true,
-	includeFills: false
+	darkBg: true
 }
 ```
 
@@ -65,7 +66,7 @@ input: 'red'
 
 #### Colour array
 
-You can use an array of pre-determined colours - which may seem a little contrived as this is what is returned, however there are added properties and methods to this approach.
+You can use an array of pre-determined colours - which may seem a little contrived as this is what is returned, however there are added properties and methods to `VizPalette` which are not available with a regular array of strings.
 
 The input colours can be of any type.
 
@@ -75,7 +76,7 @@ input: ['#fe4672', 'rgb(156, 0, 234', '#d28574', 'hsla(200, 50%, 50%, 1)']
 
 ### `paletteType` property {string} _default: 'tetrad'_
 
-If a palette is automatically generated with no `input` option, or only one colour as the `input`, the palette type can also be specified. Each palette type returns either five or six colours, one of which is very dark and one very light.
+If a palette is automatically generated with _no_ `input` option, or _only one_ colour as the `input`, the palette type can also be specified. Each palette type returns either five or six colours, one of which is very dark and one very light.
 
 This can be one of:
 
@@ -84,29 +85,73 @@ This can be one of:
 - `'split'` Five colours, one original, one very dark, one very light and two additional which are split compliments of the input.
 - `'triad'` Five colours, one original, one very dark, one very light and two additional which are triad compliments of the input.
 
-
 If an array is used for the `input` option, this property has no effect.
 
-ADD DARK BACKGOUND HERE
+### `darkBg` property {boolean} _default: true_
 
+A `bg` (background) and `fg` (foreground) property are exposed as part of the returned `VizPalette` (see more below). The `darkBg` option/property dictates whether the `bg` is the darkest colour of the palette (when set to `true`), or the lightest (when set to `false`).
 
+```
+darkBg: false // VizPalette.bg is the lightest colour
+```
 
 ## Properties
 
+### `bg` property {string}
+
+Returns the background colour as a hexadecimal string. Depends on `darkBg`.
+
+```
+console.log(palette.bg); // hex string
+```
+
+### `fg` property {string}
+
+Returns the foreground colour as a hexadecimal string. Depends on `darkBg`.
+
+```
+console.log(palette.fg); // hex string
+```
 
 ## Methods
 
-### `addFill`
+### `addFill(opts = {})`
 
-### `removeBg`
+Adds a `VizFill` (see below) to the palette.
+
+```
+palette.addFill();
+
+console.log(palette); // ['#111', '#efe', CanvasPattern]
+```
+
+Takes an optional options object with the following properties:
+
+- `type` _default 'dots'_ The type of pattern or gradient. Can be one of:
+	- `'dots'` _default_: A `CanvasPattern` of dots.
+	- `'dotgrid'`: A `CanvasPattern` a dot grid.
+	- `'stripes'`: A stripey `CanvasPattern`.
+	- `'grid'`: A line grid `CanvasPattern`.
+	- `'checkered'`: A checkered `CanvasPattern`.
+	- `'lgradient'`: A linear `CanvasGradient`.
+- `fgCol` _default '#fefefe'_ A CSSColor type
+- `bgCol` _default '#111'_ A CSSColor type
+-	`size` _default 24_ An integer which changes the size of the repeatable part of the pattern
+- `ratio` _default 1_ A float which modifies the ratio of the pattern
+
+[For more about the `VizFill` class see below](#VizFill)
+
+### `generatePalette()`
+
+(Re)Generates the palette.
 
 # VizFill
 
-VizPalette includes a class called VizFill which is used to create the canvas pattern or gradient fills.
+`VizPalette` includes a class called `VizFill` which is used to create the canvas pattern or gradient fills. This class is not exported with the module but can easily be modified to.
 
 > VizFill can easily be pulled out and made into it's own module, but as it's sole use within my eco system is for the palette, I've kept them together.
 
-The following describes how to use VizFill as if it were it's own module. When the `addPattern()` method of `VizPalette` is used, a `VizFill` is returned.
+The following describes how to use `VizFill` as if it were it's own module. When the `addPattern()` method of `VizPalette` is used, a `VizFill` is returned.
 
 ## Basic usage
 
@@ -120,7 +165,7 @@ An optional options object can be passed in (see below for more):
 
 `const fill = new VizFill(options)`
 
-Either a `CanvasPattern` or a `CanvasGradient` is returned, depending on the `type` specified. Each pattern takes two colours, one for the foreground and one for the background. Two sizes can be specified `psize` and `dsize` - these stand for 'pattern size' and 'detail size' retrospectively. See below for more.
+Either a `CanvasPattern` or a `CanvasGradient` is returned, depending on the `type` specified. Each pattern takes two colours, one for the foreground and one for the background. A `size` for th repeatable part of the pattern can be specified, as can a `ratio` to adjust the pattern.
 
 ## Options & matching properties
 
@@ -167,8 +212,6 @@ fill.fgCol = 'red';
 console.log(fill.fgCol) // 'red';
 ```
 
-When used within VizPalette this defaults to the palettes foreground colour.
-
 ### `bgCol` property {string} _default: '#111'_
 
 The background colour for the pattern.
@@ -178,8 +221,6 @@ fill.bgCol = 'blue';
 console.log(fill.bgCol) // 'blue';
 ```
 
-When used within VizPalette this defaults to the palettes background colour.
-
 ### `size` property {int} _default: 16_
 
 The size of the pattern. 
@@ -187,5 +228,14 @@ The size of the pattern.
 ```
 fill.size = 20;
 console.log(fill.size) // 20
+```
+
+### `ratio` property {float} _default: 1_
+
+The ratio of the pattern.
+
+```
+fill.ratio = 0.5;
+console.log(fill.ratio) // 0.5
 ```
 

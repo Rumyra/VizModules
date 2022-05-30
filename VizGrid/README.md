@@ -2,6 +2,8 @@
 
 JS Module that returns a map of grid coordinates, based on different settings. This module was designed to be used with frontend JavaScript, as an ES6 module.
 
+[See it working](example)
+
 **VizGrid** automatically calculates points to fill an area. There are plenty of options to manipulate how spaced out these points should be, a ratio to change the default 'square' grid, as well as an offset for isometric grids.
 
 You can also change the type of the grid from cartesian (default) to polar (see below for more).

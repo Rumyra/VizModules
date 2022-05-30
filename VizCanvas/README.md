@@ -2,6 +2,8 @@
 
 **VizCanvas** creates a fullscreen, 2d context canvas when instantiated. It exposes some properties & methods for working with the Canvas API.
 
+[See it working](example)
+
 > Old versions of this class used to take width, height and specify which element to append the new canvas too. Whilst I might add this back in if I deem it useful, I never used these features, so pulled them out for simplification.
 
 ## Getting started
