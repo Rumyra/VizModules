@@ -16,4 +16,8 @@ A set of JS modules to use for graphics, with the [Canvas API](https://developer
 	- [View the docs](VizPalette)
 	- [See the example](VizPalette/example)
 
+- [VizTile](https://github.com/Rumyra/VizModules/tree/main/VizTile): Creates a 'tile' made of shapes to draw.
+	- [View the docs](VizTile)
+	- [See the example](VizTile/example)
+
 > Copyright Ruth John 2022

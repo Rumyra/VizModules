@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>VizTile example</title>
+	<style>
+		canvas {
+			width:  800px;
+			height:  600px;
+			border:  1px solid grey;
+		}
+	</style>
+</head>
+<body>
+
+	<canvas></canvas>
+
+<script type="module">
+	// create palette
+	import VizTile from '../VizTile.js';
+
+	// get width & height of canvas including dpr
+	const width = 800*window.devicePixelRatio;
+	const height = 600*window.devicePixelRatio;
+	const size = 100*window.devicePixelRatio;
+
+	const defaultOptions = {
+		w: 100,
+		h: 100
+	}
+
+	const testOptions = {
+		w: size,
+		h: size
+	}
+
+	const tile = new VizTile(testOptions);
+	// tile.addCircle({
+	// 	x: 0.5,
+	// 	y: 0.5,
+	// 	r: size/2,
+	// 	fill: '#ddd',
+	// 	stroke: 'red',
+	// 	strokeWidth: 3.0
+	// })
+
+	// creates array of shapes - order matters
+	// shapes are drawn the center
+	// tile.addRect({
+	// 	x: 0.5,
+	// 	y: 0.5,
+	// 	w: size,
+	// 	h: size,
+	// 	fill: 'pink',
+	// 	stroke: 'purple',
+	// 	strokeWidth: 6.0
+	// })
+	
+	tile.addPolar({
+		x: 0.5,
+		y: 0.5,
+		w: size,
+		fill: 'black',
+		stroke: 'white',
+		strokeWidth: 3.0,
+		pointCount: 4,
+		innerRadius: size+size/2.4
+	})
+	tile.addPolar({
+		x: 0.5,
+		y: 0.5,
+		w: size,
+		fill: 'black',
+		stroke: 'white',
+		strokeWidth: 3.0,
+		pointCount: 8,
+		innerRadius: false
+	})
+	tile.addPolar({
+		x: 0.5,
+		y: 0.5,
+		w: size/1.15,
+		fill: 'black',
+		stroke: 'white',
+		strokeWidth: 3.0,
+		pointCount: 12,
+		innerRadius: 130
+	})
+	tile.addPolar({
+		x: 0.5,
+		y: 0.5,
+		w: size/1.4,
+		fill: 'black',
+		stroke: 'white',
+		strokeWidth: 3.0,
+		pointCount: 6,
+		innerRadius: 70
+	})
+	tile.addPolar({
+		x: 0.5,
+		y: 0.5,
+		w: size/2,
+		fill: 'black',
+		stroke: 'white',
+		strokeWidth: 3.0,
+		pointCount: 3,
+		innerRadius: 30
+	})
+	// tile.addCircle({
+	// 	x: 0.5,
+	// 	y: 0.5,
+	// 	r: size/3,
+	// 	fill: 'pink',
+	// 	stroke: 'white',
+	// 	strokeWidth: 3.0
+	// })
+	
+
+	// create canvas
+	const canvasEl = document.querySelector('canvas');
+	canvasEl.width = width;
+	canvasEl.height = height;
+	const ctx = canvasEl.getContext('2d');
+
+
+	// create coords for drawing squares
+	let coords = [];
+	for (let y=0; y<=height; y+=size) {
+		for (let x=0; x<=width; x+=size) {
+			tile[1].fill = `hsla(${y/5 + x/5}, 50%, 50%, 1.0)`;
+			tile[2].fill = `hsla(${360- (y/5 + x/5)}, 50%, 50%, 1.0)`;
+			tile[3].fill = `hsla(${y/5 + x/5}, 50%, 50%, 1.0)`
+
+			ctx.translate(x, y);
+			tile.render(ctx);
+			ctx.resetTransform();
+		}
+	}
+
+
+</script>
+
+</body>
+</html>
