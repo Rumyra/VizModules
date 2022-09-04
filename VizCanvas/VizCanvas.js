@@ -114,6 +114,7 @@ class VizCanvas {
 	}
 	set bgCol(col = '#111') {
 		this.#bgCol = col;
+		this.clear(col);
 	}
 
 	// filters +++++++++++++++++

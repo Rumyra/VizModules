@@ -1,5 +1,7 @@
 // Created & coded by @Rumyra: https://rumyra.com
 
+// TODO add render to all getters & setters
+
 // functions for use in class
 function clamp(value, min, max) {
 	return min < max
