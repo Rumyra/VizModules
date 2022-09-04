@@ -97,7 +97,7 @@ darkBg: false // VizPalette.bg is the lightest colour
 
 ## Properties
 
-### `bg` property {string}
+### `bg` property {string} _Readonly_
 
 Returns the background colour as a hexadecimal string. Depends on `darkBg`.
 
@@ -105,7 +105,7 @@ Returns the background colour as a hexadecimal string. Depends on `darkBg`.
 console.log(palette.bg); // hex string
 ```
 
-### `fg` property {string}
+### `fg` property {string} _Readonly_
 
 Returns the foreground colour as a hexadecimal string. Depends on `darkBg`.
 
@@ -114,6 +114,34 @@ console.log(palette.fg); // hex string
 ```
 
 ## Methods
+
+### `luminate(amount)` _float between -1 & 1_
+
+This adjust the lightness and darkness of the palette. Set to a float value between -1 & 1.
+
+If a value between -1 & 0 is used, the palette will darken. -1 will make all the colours black.
+
+If a value between 0 & 1 is used the palette will lighten. 1 will make all the colours white.
+
+### `saturate(amount)` _float between -1 & 1_
+
+This adjust the saturation of the palette. It accepts a float value between -1 & 1.
+
+If a value between -1 & 0 is used, the palette will desaturate. -1 will make all the colours grey.
+
+If a value between 0 & 1 is used the palette will saturate.
+
+### `spin(amount)` _float between -1 & 1_
+
+Adjusts the hue of the palette. -1, 0 & 1 will have no effect as they are the hue points of the current palette.
+
+### `setAlpha(amount)` _float between 0 & 1_
+
+Modifies the alpha value of the colours in the palette, making them transparent. Full transparency happens when the amount is 0. Full opacity at 1.
+
+### `brighten(amount)` _float between 0 & 1_
+
+Modifies the brightness of the colours in the palette.
 
 ### `addFill(opts = {})`
 
@@ -140,6 +168,16 @@ Takes an optional options object with the following properties:
 - `ratio` _default 1_ A float which modifies the ratio of the pattern
 
 [For more about the `VizFill` class see below](#VizFill)
+
+There currently is no way to remove a fill, other than to pop it out of the array (they'll be added last).
+
+Another option is to reset the palette
+
+
+
+### `reset()`
+
+Returns the palette to the original generation.
 
 ### `generatePalette()`
 

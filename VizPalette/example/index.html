@@ -38,6 +38,14 @@
 	}
 
 	const genCols = new VizPalette(testOptions);
+
+	// modifiers
+	genCols.luminate(-0.1);
+	genCols.saturate(-0.2);
+	genCols.spin(-0.2);
+	genCols.setAlpha(0.8);
+
+
 	// default -> dots
 	genCols.addFill({
 		type: 'dots',

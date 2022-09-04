@@ -1,6 +1,6 @@
 import tinycolor from './tinyCol.js';
 
-console.log(tinycolor('red'));
+// console.log(tinycolor('red'));
 
 // TODO add rotation for stripes & grid pattern?
 // rotate the canvas
@@ -9,6 +9,7 @@ console.log(tinycolor('red'));
 		// offCtx.translate(-size/2, -size/2);
 // TODO manipulate fills in palette class
 // TODO recreate pattern when properties change
+// we need to keep a copy of fills that have been created, so when properties or methods are used they can be recreated
 
 /**
  * VizFill creates canvas pattern and gradient fills for use with VizPalette.
@@ -212,7 +213,13 @@ class VizPalette extends Array {
 	#input;
 	#darkBg;
 	#paletteType;
-	#tinyColors;
+	#tinyColors; // mutable
+	#origPalette; // immutable
+	#fills;
+	#luminance = 0;
+	#saturation = 0;
+	#spin = 0;
+	#brightness = 0;
 
 	constructor({
 		input = `hsla(
@@ -227,7 +234,10 @@ class VizPalette extends Array {
 		this.#input = input;
 		this.#paletteType = paletteType;
 		this.#darkBg = darkBg;
+		this.#fills = [];
 
+		this.#generateColours();
+		this.#origPalette = this.#tinyColors;
 		this.generatePalette();
 	}
 
@@ -305,6 +315,86 @@ class VizPalette extends Array {
 		} else {
 			return this.#lightest.toHexString();
 		}
+	}
+
+	// METHODS
+	// palette modifiers ----------------
+
+	/**
+	 * [luminance increases and decreases the lightness of the palette]
+	 * @param  {float} amount Value between -1 & 1
+	 * @return {float}
+	 */
+	luminate(amount) {
+		// luminance gets added so we only want to add the difference
+		const dif = amount - this.#luminance;
+		this.#tinyColors.forEach( col => {
+			if (dif > 0) {
+				col.lighten(dif*100)
+			} else {
+				col.darken(dif*-100)
+			}
+		})
+		this.generatePalette();
+		this.#luminance = amount;
+		return this;
+	}
+	
+	/**
+	 * [saturation increases and decreases the saturation of the palette]
+	 * @param  {float} amount Value between -1 & 1
+	 * @return {this}
+	 */
+	saturate(amount) {
+		// saturation gets added so we only want to add the difference
+		const dif = amount - this.#saturation;
+		this.#tinyColors.forEach( col => {
+			if (dif > 0) {
+				col.saturate(dif*100)
+			} else {
+				col.desaturate(dif*-100)
+			}
+		})
+		this.generatePalette();
+		this.#saturation = amount;
+		return this;
+	}
+	
+	/**
+	 * [spin rotates the hue of the palette]
+	 * @param  {float} amount Value between -1 & 1
+	 * @return {this}
+	 */
+	spin(amount) {
+		const dif = amount - this.#spin;
+		this.#tinyColors.forEach( col => {
+			col.spin(dif*360)
+		})
+		this.generatePalette();
+		this.#spin = amount;
+		return this;
+	}
+
+	/**
+	 * [setAlpha sets the alpha value of colours]
+	 * @param {float} amount Value between 0 & 1
+	 */
+	setAlpha(amount) {
+		this.#tinyColors.forEach( col => {
+			col.setAlpha(amount)
+		})
+		this.generatePalette();
+		return this;
+	}
+
+	brighten(amount) {
+		const dif = amount - this.#brightness;
+		this.#tinyColors.forEach( col => {
+				col.brighten(dif*100)
+		})
+		this.generatePalette();
+		this.#brightness = amount;
+		return this;
 	}
 
 	/**
@@ -393,16 +483,21 @@ class VizPalette extends Array {
 		return pattern;
 	}
 
+	
 	/**
 	 * Loops over #tinyColors and returns hexadecimal strings
 	 * @return {Array} Returns the generated VizPalette
 	 */
 	generatePalette() {
+		this.length = 0;
 		// add colours
-		this.#generateColours();
 		this.#tinyColors.forEach( col => {
 			this.push(col.toHexString())
 		} )
+	}
+
+	reset() {
+		this.#tinyColors = this.#origPalette;
 	}
 
 	// UTILITIES
