@@ -1,6 +1,6 @@
 # VizPalette
 
-Returns an array of colours (in hexadecimal string format) based on an input of one colour or an array.
+Returns an array of colours (in hsla string format) based on an input of one colour or an array.
 
 [See it working](example)
 

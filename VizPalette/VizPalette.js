@@ -492,7 +492,7 @@ class VizPalette extends Array {
 		this.length = 0;
 		// add colours
 		this.#tinyColors.forEach( col => {
-			this.push(col.toHexString())
+			this.push(col.toHslString())
 		} )
 	}
 
