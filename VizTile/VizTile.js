@@ -252,7 +252,9 @@ class VizTile extends Array {
 
 			ctx.translate(shape.x*this.#w, shape.y*this.#h)
 			ctx.fill(shape.path);
-			ctx.stroke(shape.path);
+			if (shape.strokeWidth > 0) {
+				ctx.stroke(shape.path);
+			}
 
 			ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
 
