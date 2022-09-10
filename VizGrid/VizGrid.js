@@ -366,8 +366,8 @@ class VizGrid extends Map {
 		if (this.#padding === true) {
 			xStart = xStart + this.cw;
 			yStart = yStart + this.ch;
-			xEnd = xEnd-this.cw;
-			yEnd = yEnd-this.ch
+			xEnd = xEnd-this.cw-2;
+			yEnd = yEnd-this.ch-2;
 		}
 
 		const coords = [];
