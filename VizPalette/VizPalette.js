@@ -300,9 +300,9 @@ class VizPalette extends Array {
 	 */
 	get bg() {
 		if (this.#darkBg === true) {
-			return this.#darkest.toHexString();
+			return this.#darkest.toHslString();
 		} else {
-			return this.#lightest.toHexString();
+			return this.#lightest.toHslString();
 		}
 	}
 	/**
@@ -311,10 +311,19 @@ class VizPalette extends Array {
 	 */
 	get fg() {
 		if (this.#darkBg === false) {
-			return this.#darkest.toHexString();
+			return this.#darkest.toHslString();
 		} else {
-			return this.#lightest.toHexString();
+			return this.#lightest.toHslString();
 		}
+	}
+
+	/**
+	 * [random returns a random colour from the palette]
+	 * @return {string} HSLA string
+	 */
+	get random() {
+		const rInt = Math.floor(Math.random()*this.length);
+		return this.#tinyColors[rInt].toHslString();
 	}
 
 	// METHODS
@@ -411,11 +420,11 @@ class VizPalette extends Array {
 				this.#tinyColors.push(tinycolor(el))
 			} )
 			// sort #tinyColors so bg is first and fg is second
-			const fgi = this.#tinyColors.findIndex(el => el.toHexString() === this.fg);
+			const fgi = this.#tinyColors.findIndex(el => el.toHslString() === this.fg);
 			const fgel = this.#tinyColors.splice(fgi, 1)[0];
 			this.#tinyColors.splice(0, 0, fgel);
 
-			const bgi = this.#tinyColors.findIndex(el => el.toHexString() === this.bg);
+			const bgi = this.#tinyColors.findIndex(el => el.toHslString() === this.bg);
 			const bgel = this.#tinyColors.splice(bgi, 1)[0];
 			this.#tinyColors.splice(0, 0, bgel);
 
