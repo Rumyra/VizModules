@@ -117,7 +117,10 @@ class VizGrid extends Map {
 	 * @returns {string}
 	 */
 	get type() { return this.#type; }
-	set type(val) { this.#type = val; }
+	set type(val) {
+		this.#type = val;
+		this.render();
+	}
 
 	/**
 	 * @property {int} The width of the grid
@@ -126,7 +129,10 @@ class VizGrid extends Map {
 	 * @returns {int}
 	 */
 	get width() { return this.#width; }
-	set width(val) { this.#width = val; }
+	set width(val) {
+		this.#width = val;
+		this.render();
+	}
 
 	/**
 	 * @property {int} The height of the grid
@@ -135,7 +141,10 @@ class VizGrid extends Map {
 	 * @returns {int}
 	 */
 	get height() { return this.#height; }
-	set height(val) { this.#height = val; }
+	set height(val) {
+		this.#height = val;
+		this.render();
+	}
 
 	/**
 	 * @property {int} The horizontal position of the grid
@@ -144,7 +153,10 @@ class VizGrid extends Map {
 	 * @returns {int}
 	 */
 	get gx() { return this.#gx; }
-	set gx(val) { this.#gx = val; }
+	set gx(val) {
+		this.#gx = val;
+		this.render();
+	}
 
 	/**
 	 * @property {int} The vertical position of the grid
@@ -153,7 +165,10 @@ class VizGrid extends Map {
 	 * @returns {int}
 	 */
 	get gy() { return this.#gy; }
-	set gy(val) { this.#gy = val; }
+	set gy(val) {
+		this.#gy = val;
+		this.render();
+	}
 
 	/**
 	 * @property {boolean} Whether there is space around the outer of the grid.
@@ -162,7 +177,10 @@ class VizGrid extends Map {
 	 * @returns {int}
 	 */
 	get padding() { return this.#padding; }
-	set padding(val) { this.#padding = val; }
+	set padding(val) {
+		this.#padding = val;
+		this.render();
+	}
 
 	/**
 	 * @property {string} Which direction the grid is generated in
@@ -171,7 +189,10 @@ class VizGrid extends Map {
 	 * @returns {string}
 	 */
 	get axis() { return this.#axis; }
-	set axis(direction) { this.#axis = direction; }
+	set axis(direction) {
+		this.#axis = direction;
+		this.render();
+	}
 
 	/**
 	 * @property {float} Spacing between coords
@@ -184,6 +205,7 @@ class VizGrid extends Map {
 	}
 	set spacing(val) {
 		this.#spacing = clamp(val, 0, 1);
+		this.render();
 	}
 
 	/**
@@ -195,6 +217,7 @@ class VizGrid extends Map {
 	}
 	set spacingConstant(val = 80) {
 		this.#spacingConstant = val;
+		this.render();
 	}
 
 	/**
@@ -204,7 +227,10 @@ class VizGrid extends Map {
 	 * @returns {float}
 	 */
 	get ratio() { return this.#ratio; }
-	set ratio(val) { this.#ratio = clamp(val, 0.01, 2); }
+	set ratio(val) {
+		this.#ratio = clamp(val, 0.01, 2);
+		this.render();
+	}
 
 	/**
 	 * @description Set offset. Moves every other row or column based on value.
@@ -213,6 +239,7 @@ class VizGrid extends Map {
 	get offset() { return this.#offset; }
 	set offset(val) { 
 		this.#offset = this.#calculateOffset(clamp(val, 0, 1));
+		this.render();
 	}
 
 	/**
@@ -223,6 +250,7 @@ class VizGrid extends Map {
 	get center() { return this.#center; }
 	set center(val) { 
 		this.#center = parseValToXY(val);
+		this.render();
 	}
 
 	/**
@@ -232,7 +260,10 @@ class VizGrid extends Map {
 	 * @returns {boolean}
 	 */
 	get dither() { return this.#dither; }
-	set dither(val) { this.#dither = val; }
+	set dither(val) {
+		this.#dither = val;
+		this.render();
+	}
 
 	/**
 	 * @description Set falloff - how quickly dither disappears (0) or stays (1)
@@ -241,6 +272,7 @@ class VizGrid extends Map {
 	get falloff() { return this.#falloff; }
 	set falloff(amount) {
 		this.#falloff = amount;
+		this.render();
 	}
 
 

@@ -59,6 +59,7 @@ class VizShape {
 	}
 	set type(type) {
 		this.#type = type;
+		this.#makePath();
 	}
 
 	get path() {
@@ -73,6 +74,7 @@ class VizShape {
 	}
 	set x(float) {
 		this.#x = float;
+		this.#makePath();
 	}
 
 	get y() {
@@ -80,6 +82,7 @@ class VizShape {
 	}
 	set y(float) {
 		this.#y = float;
+		this.#makePath();
 	}
 
 	get w() {
@@ -87,6 +90,7 @@ class VizShape {
 	}
 	set w(float) {
 		this.#w = float;
+		this.#makePath();
 	}
 
 	get h() {
@@ -94,6 +98,7 @@ class VizShape {
 	}
 	set h(float) {
 		this.#h = float;
+		this.#makePath();
 	}
 
 	get fill() {
@@ -122,6 +127,7 @@ class VizShape {
 	}
 	set pointCount(int) {
 		this.#pointCount = int;
+		this.#makePath();
 	}
 
 	get innerRadius() {
@@ -129,6 +135,7 @@ class VizShape {
 	}
 	set innerRadius(boolOrInt) {
 		this.#innerRadius = boolOrInt;
+		this.#makePath();
 	}
 
 	#makePath() {
@@ -183,6 +190,7 @@ class VizShape {
 /**
  * Viztile is a map of canvas 2D context shapes sized and positioned to the tiles size
  */
+// TODO maybe pass ctx in here
 class VizTile extends Array {
 
 	#w;
