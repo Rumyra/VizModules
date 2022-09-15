@@ -182,6 +182,7 @@ class VizShape {
 			break;
 
 			case 'drop':
+				this.#path.moveTo(this.#x, this.#y);
 				this.#path.arc(this.#x, this.#y, this.#w/2, 0, 4.72);
 				this.#path.lineTo(this.#w/2, -this.#w/2);
 				this.#path.closePath();
