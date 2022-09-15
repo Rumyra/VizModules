@@ -179,6 +179,13 @@ class VizShape {
 					}
 				} // loop
 				this.#path.closePath();
+			break;
+
+			case 'drop':
+				this.#path.arc(this.#x, this.#y, this.#w/2, 0, 4.72);
+				this.#path.lineTo(this.#w/2, -this.#w/2);
+				this.#path.closePath();
+			break;
 
 			default:
 				// this.#path = this.#path;
@@ -244,6 +251,15 @@ class VizTile extends Array {
 			fill: opts.fill, stroke: opts.stroke,
 			strokeWidth: opts.strokeWidth,
 			pointCount: opts.pointCount, innerRadius: opts.innerRadius
+		}))
+	}
+
+	addDrop(opts) {
+		this.push(new VizShape({
+			type:'drop',
+			x: opts.x, y: opts.y, w: opts.w,
+			fill: opts.fill, stroke: opts.stroke,
+			strokeWidth: opts.strokeWidth
 		}))
 	}
 
