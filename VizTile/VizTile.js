@@ -211,6 +211,7 @@ class VizTile extends Array {
 
 	#w;
 	#h;
+	#rotation = 0;
 
 	constructor({
 		w = 100, h = 100,
@@ -234,6 +235,10 @@ class VizTile extends Array {
 	}
 	set h(int) {
 		this.#h = int;
+	}
+
+	rotate(degrees) {
+		this.#rotation = degToRad(degrees);
 	}
 
 	addCircle(opts) {
@@ -284,11 +289,13 @@ class VizTile extends Array {
 			ctx.lineWidth = shape.strokeWidth;
 
 			ctx.translate(shape.x*this.#w, shape.y*this.#h)
+			ctx.rotate(this.#rotation);
 			ctx.fill(shape.path);
 			if (shape.strokeWidth > 0) {
 				ctx.stroke(shape.path);
 			}
 
+			ctx.rotate(-this.#rotation);
 			ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
 
 		})
