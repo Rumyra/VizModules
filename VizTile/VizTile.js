@@ -59,6 +59,7 @@ class VizShape {
 	}
 	set type(type) {
 		this.#type = type;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -74,6 +75,7 @@ class VizShape {
 	}
 	set x(float) {
 		this.#x = float;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -82,6 +84,7 @@ class VizShape {
 	}
 	set y(float) {
 		this.#y = float;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -90,6 +93,7 @@ class VizShape {
 	}
 	set w(float) {
 		this.#w = float;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -98,6 +102,7 @@ class VizShape {
 	}
 	set h(float) {
 		this.#h = float;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -127,6 +132,7 @@ class VizShape {
 	}
 	set pointCount(int) {
 		this.#pointCount = int;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
@@ -135,10 +141,12 @@ class VizShape {
 	}
 	set innerRadius(boolOrInt) {
 		this.#innerRadius = boolOrInt;
+		this.#path = new Path2D();
 		this.#makePath();
 	}
 
 	#makePath() {
+		// reset path
 		switch (this.#type) {
 			case 'circle':
 				this.#path.arc(this.#x, this.#y, this.#w/2, 0, Math.PI*2);
