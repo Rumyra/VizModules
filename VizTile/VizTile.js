@@ -283,6 +283,7 @@ class VizTile extends Array {
 
 	render(ctx) {
 		// we're going to rotate the tile, not the shape TODO add rotate property to shapes
+		ctx.rotate(this.#rotation);
 		this.forEach(shape => {
 
 			ctx.fillStyle = shape.fill;
@@ -300,6 +301,7 @@ class VizTile extends Array {
 			// ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
 
 		})
+		ctx.rotate(-this.#rotation);
 	}
 }
 
