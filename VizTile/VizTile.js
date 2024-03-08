@@ -290,7 +290,7 @@ class VizTile extends Array {
 			ctx.strokeStyle = shape.stroke;
 			ctx.lineWidth = shape.strokeWidth;
 
-			// ctx.translate(shape.x*this.#w, shape.y*this.#h)
+			ctx.translate(shape.x*this.#w, shape.y*this.#h)
 			// ctx.rotate(this.#rotation);
 			ctx.fill(shape.path);
 			if (shape.strokeWidth > 0) {
@@ -298,7 +298,7 @@ class VizTile extends Array {
 			}
 
 			// ctx.rotate(-this.#rotation);
-			// ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
+			ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
 
 		})
 		ctx.rotate(-this.#rotation);
