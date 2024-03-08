@@ -282,21 +282,22 @@ class VizTile extends Array {
 	}
 
 	render(ctx) {
+		// we're going to rotate the tile, not the shape TODO add rotate property to shapes
 		this.forEach(shape => {
 
 			ctx.fillStyle = shape.fill;
 			ctx.strokeStyle = shape.stroke;
 			ctx.lineWidth = shape.strokeWidth;
 
-			ctx.translate(shape.x*this.#w, shape.y*this.#h)
-			ctx.rotate(this.#rotation);
+			// ctx.translate(shape.x*this.#w, shape.y*this.#h)
+			// ctx.rotate(this.#rotation);
 			ctx.fill(shape.path);
 			if (shape.strokeWidth > 0) {
 				ctx.stroke(shape.path);
 			}
 
-			ctx.rotate(-this.#rotation);
-			ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
+			// ctx.rotate(-this.#rotation);
+			// ctx.translate(-shape.x*this.#w, -shape.y*this.#h)
 
 		})
 	}
